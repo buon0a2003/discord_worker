@@ -3,7 +3,7 @@ main = "./src/server.js"
 compatibility_date="2023-05-18"
 
 [triggers]
-crons = ["0 1 * * *"]
+crons = ["0 17 * * *"]
 
 [observability.logs]
 enabled = true
