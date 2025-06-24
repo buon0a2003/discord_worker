@@ -122,3 +122,8 @@ export const RANDOM = {
     },
   ],
 };
+
+export const CHUIDUNG = {
+  name: 'dung',
+  description: 'mắng dũng',
+};

@@ -9,7 +9,7 @@ import {
   verifyKey,
 } from 'discord-interactions';
 // import { InteractionResponseFlags } from 'discord-interactions';
-import { TET, RANDOM, GACHA, GACHA_LIST } from './commands.js';
+import { TET, RANDOM, GACHA, GACHA_LIST, CHUIDUNG } from './commands.js';
 import { updateChannelName, getDaysUntilLunarNewYear } from './lunarNewYear.js';
 import { generateRandomIntegers } from './RandomApi.js';
 import {
@@ -287,6 +287,12 @@ router.post('/', async (request, env) => {
             },
           });
         }
+      }
+      case CHUIDUNG.name.toLowerCase(): {
+        return new JsonResponse({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: { content: 'ĐM dũng' },
+        });
       }
       default:
         return new JsonResponse({ error: 'Unknown Type' }, { status: 400 });
