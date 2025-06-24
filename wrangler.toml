@@ -2,6 +2,12 @@ name = "discord-worker"
 main = "./src/server.js"
 compatibility_date="2023-05-18"
 
+[triggers]
+crons = ["0 1 * * *"]
+
+[observability.logs]
+enabled = true
+
 # [secrets]
 # DISCORD_TOKEN
 # DISCORD_PUBLIC_KEY

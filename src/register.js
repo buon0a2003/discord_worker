@@ -1,4 +1,4 @@
-import { TET } from './commands.js';
+import { TET, RANDOM, GACHA, GACHA_LIST } from './commands.js';
 import dotenv from 'dotenv';
 import process from 'node:process';
 
@@ -34,7 +34,7 @@ const response = await fetch(url, {
     Authorization: `Bot ${token}`,
   },
   method: 'PUT',
-  body: JSON.stringify([TET]),
+  body: JSON.stringify([TET, RANDOM, GACHA, GACHA_LIST]),
 });
 
 if (response.ok) {
