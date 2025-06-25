@@ -1,4 +1,4 @@
-import { generateRandomIntegers } from './RandomApi.js';
+import { generateRandomIntegers } from '../api/randomApi.js';
 
 const GACHA_OPTIONS = [
   '🌟 Hôm nay mày may mắn vcl 🌟',

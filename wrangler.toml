@@ -1,6 +1,7 @@
 name = "discord-worker"
 main = "./src/server.js"
-compatibility_date="2023-05-18"
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date="2025-05-05"
 
 [triggers]
 crons = ["0 17 * * *"]

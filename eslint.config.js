@@ -12,4 +12,9 @@ export default [
   },
   js.configs.recommended,
   prettier,
+  {
+    rules: {
+      'no-unused-vars': 'off',
+    },
+  },
 ];

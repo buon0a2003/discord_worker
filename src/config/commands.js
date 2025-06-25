@@ -123,7 +123,15 @@ export const RANDOM = {
   ],
 };
 
-export const CHUIDUNG = {
-  name: 'dung',
+export const MANG = {
+  name: 'mang',
   description: 'mắng dũng',
+  options: [
+    {
+      type: 6, // USER
+      name: 'member',
+      description: 'Member to target',
+      required: false,
+    },
+  ],
 };

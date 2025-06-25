@@ -1,23 +1,18 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
-import {
-  InteractionResponseType,
-  InteractionType,
-  InteractionResponseFlags,
-} from 'discord-interactions';
-import { AWW_COMMAND, INVITE_COMMAND } from '../src/commands.js';
+import { InteractionResponseType, InteractionType } from 'discord-interactions';
+import { TET, RANDOM, MANG } from '../src/config/commands.js';
 import sinon from 'sinon';
 import server from '../src/server.js';
-import { redditUrl } from '../src/reddit.js';
 
 describe('Server', () => {
   describe('GET /', () => {
-    it('should return a greeting message with the Discord application ID', async () => {
+    it('should return a greeting message with the voice channel ID', async () => {
       const request = {
         method: 'GET',
         url: new URL('/', 'http://discordo.example'),
       };
-      const env = { DISCORD_APPLICATION_ID: '123456789' };
+      const env = { VOICE_CHANNEL_ID: '123456789' };
 
       const response = await server.fetch(request, env);
       const body = await response.text();
@@ -59,11 +54,43 @@ describe('Server', () => {
       expect(body.type).to.equal(InteractionResponseType.PONG);
     });
 
-    it('should handle an AWW command interaction', async () => {
+    it('should handle a TET command interaction', async () => {
       const interaction = {
         type: InteractionType.APPLICATION_COMMAND,
         data: {
-          name: AWW_COMMAND.name,
+          name: TET.name,
+        },
+      };
+
+      const request = {
+        method: 'POST',
+        url: new URL('/', 'http://discordo.example'),
+      };
+
+      const env = {
+        DISCORD_TOKEN: 'test_token',
+        VOICE_CHANNEL_ID: '123456789',
+      };
+
+      verifyDiscordRequestStub.resolves({
+        isValid: true,
+        interaction: interaction,
+      });
+
+      const response = await server.fetch(request, env);
+      const body = await response.json();
+      expect(body.type).to.equal(
+        InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      );
+      expect(body.data.content).to.include('Còn');
+      expect(body.data.content).to.include('ngày nữa!');
+    });
+
+    it('should handle a MANG command interaction', async () => {
+      const interaction = {
+        type: InteractionType.APPLICATION_COMMAND,
+        data: {
+          name: MANG.name,
         },
       };
 
@@ -79,30 +106,24 @@ describe('Server', () => {
         interaction: interaction,
       });
 
-      // mock the fetch call to reddit
-      const result = sinon
-        // eslint-disable-next-line no-undef
-        .stub(global, 'fetch')
-        .withArgs(redditUrl)
-        .resolves({
-          status: 200,
-          ok: true,
-          json: sinon.fake.resolves({ data: { children: [] } }),
-        });
-
       const response = await server.fetch(request, env);
       const body = await response.json();
       expect(body.type).to.equal(
         InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       );
-      expect(result.calledOnce);
+      expect(body.data.content).to.equal('ĐM dũng');
     });
 
-    it('should handle an invite command interaction', async () => {
+    it('should handle a RANDOM command interaction', async () => {
       const interaction = {
         type: InteractionType.APPLICATION_COMMAND,
         data: {
-          name: INVITE_COMMAND.name,
+          name: RANDOM.name,
+          options: [
+            { name: 'min', value: 1 },
+            { name: 'max', value: 10 },
+            { name: 'count', value: 1 },
+          ],
         },
       };
 
@@ -112,7 +133,7 @@ describe('Server', () => {
       };
 
       const env = {
-        DISCORD_APPLICATION_ID: '123456789',
+        RANDOM_ORG_API_KEY: 'test_api_key',
       };
 
       verifyDiscordRequestStub.resolves({
@@ -125,10 +146,7 @@ describe('Server', () => {
       expect(body.type).to.equal(
         InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       );
-      expect(body.data.content).to.include(
-        'https://discord.com/oauth2/authorize?client_id=123456789&scope=applications.commands',
-      );
-      expect(body.data.flags).to.equal(InteractionResponseFlags.EPHEMERAL);
+      expect(body.data.content).to.include('Random');
     });
 
     it('should handle an unknown command interaction', async () => {
@@ -153,6 +171,22 @@ describe('Server', () => {
       const body = await response.json();
       expect(response.status).to.equal(400);
       expect(body.error).to.equal('Unknown Type');
+    });
+
+    it('should handle invalid Discord request', async () => {
+      const request = {
+        method: 'POST',
+        url: new URL('/', 'http://discordo.example'),
+      };
+
+      verifyDiscordRequestStub.resolves({
+        isValid: false,
+      });
+
+      const response = await server.fetch(request, {});
+      expect(response.status).to.equal(401);
+      const body = await response.text();
+      expect(body).to.equal('Bad request signature.');
     });
   });
 
