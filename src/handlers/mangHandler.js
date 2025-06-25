@@ -11,7 +11,7 @@ export async function handleMangCommand(interaction, env) {
   if (!targetUserId) {
     return new JsonResponse({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: { content: 'ĐM dũng' },
+      data: { content: 'ĐM <@670236332936790050>' },
     });
   } else {
     // const response = await generateAIResponse(

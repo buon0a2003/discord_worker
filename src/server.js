@@ -10,7 +10,7 @@ import { scheduled } from './scheduler/cronJobs.js';
 const router = AutoRouter();
 
 router.get('/', (request, env) => {
-  return new Response(`👋 ${env.VOICE_CHANNEL_ID}`);
+  return new Response(`👋 ${env.APPLICATION_ID}`);
 });
 
 router.post('/', async (request, env) => {

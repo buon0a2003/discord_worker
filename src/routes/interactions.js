@@ -2,13 +2,21 @@
  * Route handler for Discord interactions
  */
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
-import { TET, RANDOM, GACHA, GACHA_LIST, MANG } from '../config/commands.js';
+import {
+  TET,
+  RANDOM,
+  GACHA,
+  GACHA_LIST,
+  MANG,
+  ASK_GEMINI,
+} from '../config/commands.js';
 import {
   handleTetCommand,
   handleRandomCommand,
   handleGachaCommand,
   handleGachaListCommand,
   handleMangCommand,
+  handleAskGeminiCommand,
 } from '../handlers/index.js';
 import { JsonResponse } from '../utils/JsonResponse.js';
 
@@ -37,6 +45,9 @@ export async function handleInteraction(interaction, env) {
 
       case MANG.name.toLowerCase():
         return await handleMangCommand(interaction, env);
+
+      case ASK_GEMINI.name.toLowerCase():
+        return await handleAskGeminiCommand(interaction, env);
 
       default:
         return new JsonResponse({ error: 'Unknown Type' }, { status: 400 });

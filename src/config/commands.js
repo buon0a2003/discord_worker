@@ -135,3 +135,16 @@ export const MANG = {
     },
   ],
 };
+
+export const ASK_GEMINI = {
+  name: 'gemini',
+  description: 'Ask Gemini',
+  options: [
+    {
+      type: 3, // STRING
+      name: 'question',
+      description: 'Question to ask Gemini',
+      required: true,
+    },
+  ],
+};
