@@ -29,6 +29,15 @@ export async function handleInteraction(interaction, env) {
 
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     const commandName = interaction.data.name.toLowerCase();
+    const sender = interaction.member?.user || interaction.user;
+
+    if (sender?.id == '670236332936790050') {
+      console('black list success');
+      return new JsonResponse({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: { content: `Dũng cook 😠` },
+      });
+    }
 
     switch (commandName) {
       case TET.name.toLowerCase():

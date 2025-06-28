@@ -10,7 +10,7 @@ import { scheduled } from './scheduler/cronJobs.js';
 const router = AutoRouter();
 
 router.get('/', (request, env) => {
-  return new Response(`👋 ${env.APPLICATION_ID}`);
+  return new Response(`👋 ${env.DISCORD_APPLICATION_ID}`);
 });
 
 router.post('/', async (request, env) => {

@@ -19,7 +19,7 @@ export async function generateAIResponse(apiKey, question, options = {}) {
     return null;
   }
 
-  const model = options.model || 'gemini-2.5-flash';
+  const model = options.model || 'gemini-2.0-flash';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
   const requestBody = {
@@ -50,19 +50,34 @@ export async function generateAIResponse(apiKey, question, options = {}) {
 
       // Handle specific error types
       if (data.error?.code === 400) {
-        console.error('Bad request - check your prompt or parameters');
+        console.error('Bad request - kiểm tra lại prompt');
+        return 'Bad request - kiểm tra lại prompt';
       } else if (data.error?.code === 403) {
-        console.error('API key invalid or quota exceeded');
+        console.error('API key không hợp lệ hoặc vượt quá quota');
+        return 'API key không hợp lệ hoặc vượt quá quota';
       } else if (data.error?.code === 429) {
-        console.error('Rate limit exceeded');
+        console.error('Rate limit reached');
+        return 'Rate limit reached';
+      } else if (data.error?.code === 500) {
+        console.error('Lỗi server - vui lòng thử lại sau');
+        return 'Lỗi server - vui lòng thử lại sau';
+      } else if (data.error?.code === 503) {
+        console.error('Service đang bận, vui lòng thử lại sau');
+        return 'Service đang bận, vui lòng thử lại sau';
+      } else if (data.error?.code === 504) {
+        console.error('Gateway timeout - vui lòng thử lại sau');
+        return 'Gateway timeout - vui lòng thử lại sau';
+      } else if (data.error?.code === 502) {
+        console.error('Lỗi server - vui lòng thử lại sau');
+        return 'Lỗi server - vui lòng thử lại sau';
       }
 
-      return null;
+      return 'Có lỗi xảy ra, vui lòng thử lại sau';
     }
 
     if (!data.candidates || data.candidates.length === 0) {
       console.error('No response generated');
-      return null;
+      return 'Không có phản hồi từ Gemini';
     }
 
     const candidate = data.candidates[0];
@@ -77,14 +92,15 @@ export async function generateAIResponse(apiKey, question, options = {}) {
 
     if (!text) {
       console.error('No text content in response');
-      return null;
+      return 'Không có phản hồi từ Gemini';
     }
 
     console.log('Gemini AI response generated successfully:');
+
     return text;
   } catch (error) {
     console.error('Error calling Gemini API:', error);
-    return null;
+    return 'Có lỗi xảy ra, vui lòng thử lại sau';
   }
 }
 
