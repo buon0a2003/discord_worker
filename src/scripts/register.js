@@ -5,6 +5,7 @@ import {
   GACHA_LIST,
   MANG,
   ASK_GEMINI,
+  BLACKLIST,
 } from '../config/commands.js';
 import dotenv from 'dotenv';
 import process from 'node:process';
@@ -41,7 +42,15 @@ const response = await fetch(url, {
     Authorization: `Bot ${token}`,
   },
   method: 'PUT',
-  body: JSON.stringify([TET, RANDOM, GACHA, GACHA_LIST, MANG, ASK_GEMINI]),
+  body: JSON.stringify([
+    TET,
+    RANDOM,
+    GACHA,
+    GACHA_LIST,
+    MANG,
+    ASK_GEMINI,
+    BLACKLIST,
+  ]),
 });
 
 if (response.ok) {

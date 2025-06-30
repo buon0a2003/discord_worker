@@ -148,3 +148,41 @@ export const ASK_GEMINI = {
     },
   ],
 };
+
+export const BLACKLIST = {
+  name: 'blacklist',
+  description: 'Manage blacklist lists',
+  options: [
+    {
+      type: 1, // SUB_COMMAND
+      name: 'show',
+      description: 'Show a blacklist list',
+    },
+    {
+      type: 1, // SUB_COMMAND
+      name: 'add',
+      description: 'Add member to blacklist list',
+      options: [
+        {
+          type: 6, // USER
+          name: 'member',
+          description: 'Member to blacklist',
+          required: true,
+        },
+      ],
+    },
+    {
+      type: 1, // SUB_COMMAND
+      name: 'remove',
+      description: 'Remove member from blacklist list',
+      options: [
+        {
+          type: 6, // USER
+          name: 'member',
+          description: 'Member to remove from blacklist',
+          required: true,
+        },
+      ],
+    },
+  ],
+};

@@ -7,3 +7,4 @@ export { handleGachaCommand } from './gachaHandler.js';
 export { handleGachaListCommand } from './gachaListHandler.js';
 export { handleMangCommand } from './mangHandler.js';
 export { handleAskGeminiCommand } from './askGeminiHandler.js';
+export { handleBlackListCommand } from './blackListHandler..js';

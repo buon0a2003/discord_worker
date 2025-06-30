@@ -9,6 +9,7 @@ import {
   GACHA_LIST,
   MANG,
   ASK_GEMINI,
+  BLACKLIST,
 } from '../config/commands.js';
 import {
   handleTetCommand,
@@ -17,8 +18,10 @@ import {
   handleGachaListCommand,
   handleMangCommand,
   handleAskGeminiCommand,
+  handleBlackListCommand,
 } from '../handlers/index.js';
 import { JsonResponse } from '../utils/JsonResponse.js';
+import { isUserBlacklisted } from '../services/blacklist.js';
 
 export async function handleInteraction(interaction, env) {
   if (interaction.type === InteractionType.PING) {
@@ -31,11 +34,11 @@ export async function handleInteraction(interaction, env) {
     const commandName = interaction.data.name.toLowerCase();
     const sender = interaction.member?.user || interaction.user;
 
-    if (sender?.id == '670236332936790050') {
-      console('black list success');
+    // Check blacklist using the service
+    if (sender?.id && isUserBlacklisted(sender.id)) {
       return new JsonResponse({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: { content: `Dũng cook 😠` },
+        data: { content: `<@${sender.id}> cook 😠` },
       });
     }
 
@@ -57,6 +60,16 @@ export async function handleInteraction(interaction, env) {
 
       case ASK_GEMINI.name.toLowerCase():
         return await handleAskGeminiCommand(interaction, env);
+
+      case BLACKLIST.name.toLowerCase():
+        if (sender?.id == '687520598980689956') {
+          return await handleBlackListCommand(interaction, env);
+        } else {
+          return new JsonResponse({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: { content: '❌ Bạn không có quyền sử dụng lệnh này' },
+          });
+        }
 
       default:
         return new JsonResponse({ error: 'Unknown Type' }, { status: 400 });
