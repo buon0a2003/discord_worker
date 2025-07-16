@@ -9,6 +9,11 @@ crons = ["0 17 * * *"]
 [observability.logs]
 enabled = true
 
+[[d1_databases]]
+binding = "DB"
+database_name = "dis-worker"
+database_id = "28f95dcb-8902-4059-bc48-e2ef8e687886"
+
 # [secrets]
 # DISCORD_TOKEN
 # DISCORD_PUBLIC_KEY

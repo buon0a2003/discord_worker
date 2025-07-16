@@ -35,7 +35,7 @@ export async function handleInteraction(interaction, env) {
     const sender = interaction.member?.user || interaction.user;
 
     // Check blacklist using the service
-    if (sender?.id && isUserBlacklisted(sender.id)) {
+    if (sender?.id && (await isUserBlacklisted(env.DB, sender.id))) {
       return new JsonResponse({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: { content: `<@${sender.id}> cook 😠` },

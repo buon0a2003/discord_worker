@@ -11,7 +11,7 @@ import {
 } from '../services/gachaList.js';
 import { JsonResponse } from '../utils/JsonResponse.js';
 
-export async function handleGachaListCommand(interaction) {
+export async function handleGachaListCommand(interaction, env) {
   try {
     const subcommand = interaction.data.options?.[0];
     if (!subcommand) {
@@ -30,7 +30,7 @@ export async function handleGachaListCommand(interaction) {
       case 'show': {
         const nameOption = subcommandOptions.find((opt) => opt.name === 'name');
         const listName = nameOption ? nameOption.value : null;
-        const gachaList = getGachaOptions(listName);
+        const gachaList = await getGachaOptions(env.DB, listName);
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -57,7 +57,11 @@ export async function handleGachaListCommand(interaction) {
         const optionsArray = optionsOption.value
           .split(',')
           .map((opt) => opt.trim());
-        const result = createCustomGachaList(listName, optionsArray);
+        const result = await createCustomGachaList(
+          env.DB,
+          listName,
+          optionsArray,
+        );
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -84,7 +88,11 @@ export async function handleGachaListCommand(interaction) {
         const newOptionsArray = optionsOption.value
           .split(',')
           .map((opt) => opt.trim());
-        const result = addToCustomGachaList(listName, newOptionsArray);
+        const result = await addToCustomGachaList(
+          env.DB,
+          listName,
+          newOptionsArray,
+        );
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -105,7 +113,7 @@ export async function handleGachaListCommand(interaction) {
         }
 
         const listName = nameOption.value;
-        const result = clearCustomGachaList(listName);
+        const result = await clearCustomGachaList(env.DB, listName);
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -114,7 +122,7 @@ export async function handleGachaListCommand(interaction) {
       }
 
       case 'lists': {
-        const result = getAllCustomListNames();
+        const result = await getAllCustomListNames(env.DB);
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

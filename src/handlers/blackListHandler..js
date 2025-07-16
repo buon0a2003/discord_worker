@@ -26,7 +26,7 @@ export async function handleBlackListCommand(interaction, env) {
 
     switch (subcommand.name) {
       case 'show': {
-        const blacklistDisplay = getBlacklistDisplay();
+        const blacklistDisplay = await getBlacklistDisplay(env.DB);
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -49,7 +49,7 @@ export async function handleBlackListCommand(interaction, env) {
         }
 
         const userId = memberOption.value;
-        const result = addUserToBlacklist(userId);
+        const result = await addUserToBlacklist(env.DB, userId);
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -72,7 +72,7 @@ export async function handleBlackListCommand(interaction, env) {
         }
 
         const userId = memberOption.value;
-        const result = removeUserFromBlacklist(userId);
+        const result = await removeUserFromBlacklist(env.DB, userId);
 
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

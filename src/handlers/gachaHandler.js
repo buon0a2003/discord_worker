@@ -13,6 +13,7 @@ export async function handleGachaCommand(interaction, env) {
 
     const gachaItem = await getRandomGachaItem(
       env.RANDOM_ORG_API_KEY,
+      env.DB,
       listName,
     );
     return new JsonResponse({
