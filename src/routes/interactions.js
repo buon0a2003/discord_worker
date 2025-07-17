@@ -10,6 +10,9 @@ import {
   MANG,
   ASK_GEMINI,
   BLACKLIST,
+  YT,
+  ADDSONG,
+  PLAYSONG,
 } from '../config/commands.js';
 import {
   handleTetCommand,
@@ -19,6 +22,9 @@ import {
   handleMangCommand,
   handleAskGeminiCommand,
   handleBlackListCommand,
+  handleYtCommand,
+  handleAddSongCommand,
+  handlePlaySongCommand,
 } from '../handlers/index.js';
 import { JsonResponse } from '../utils/JsonResponse.js';
 import { isUserBlacklisted } from '../services/blacklist.js';
@@ -70,6 +76,13 @@ export async function handleInteraction(interaction, env) {
             data: { content: '❌ Bạn không có quyền sử dụng lệnh này' },
           });
         }
+
+      case YT.name.toLowerCase():
+        return await handleYtCommand(interaction, env);
+      case ADDSONG.name.toLowerCase():
+        return await handleAddSongCommand(interaction, env);
+      case PLAYSONG.name.toLowerCase():
+        return await handlePlaySongCommand(interaction, env);
 
       default:
         return new JsonResponse({ error: 'Unknown Type' }, { status: 400 });

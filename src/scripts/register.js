@@ -6,6 +6,9 @@ import {
   MANG,
   ASK_GEMINI,
   BLACKLIST,
+  ADDSONG,
+  PLAYSONG,
+  YT,
 } from '../config/commands.js';
 import dotenv from 'dotenv';
 import process from 'node:process';
@@ -50,6 +53,9 @@ const response = await fetch(url, {
     MANG,
     ASK_GEMINI,
     BLACKLIST,
+    ADDSONG,
+    PLAYSONG,
+    YT,
   ]),
 });
 

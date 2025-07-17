@@ -186,3 +186,48 @@ export const BLACKLIST = {
     },
   ],
 };
+
+export const YT = {
+  name: 'yt',
+  description: 'Create a Watch2Gether room with a YouTube video',
+  options: [
+    {
+      type: 3, // STRING
+      name: 'link',
+      description: 'YouTube video link',
+      required: true,
+    },
+  ],
+};
+
+export const ADDSONG = {
+  name: 'addsong',
+  description: 'Add a song to the current Watch2Gether room',
+  options: [
+    {
+      type: 3, // STRING
+      name: 'link',
+      description: 'YouTube video link to add',
+      required: true,
+    },
+    {
+      type: 3, // STRING
+      name: 'title',
+      description: 'Optional title for the song',
+      required: false,
+    },
+  ],
+};
+
+export const PLAYSONG = {
+  name: 'playsong',
+  description: 'Play a song immediately in the current Watch2Gether room',
+  options: [
+    {
+      type: 3, // STRING
+      name: 'link',
+      description: 'YouTube video link to play',
+      required: true,
+    },
+  ],
+};
